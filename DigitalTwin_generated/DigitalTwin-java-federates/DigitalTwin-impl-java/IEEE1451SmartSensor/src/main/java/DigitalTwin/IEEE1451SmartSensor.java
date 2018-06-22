@@ -238,21 +238,28 @@ public class IEEE1451SmartSensor extends IEEE1451SmartSensorBase {
         //////////////////////////////////////////////////////////////////////////
         // TODO implement how to handle reception of the interaction            //
         //////////////////////////////////////////////////////////////////////////
-    	ReadTransducerChannelTEDSResponse vReadTransducerChannelTEDSResponse = create_ReadTransducerChannelTEDSResponse();
-        vReadTransducerChannelTEDSResponse.set_errorCode(NO_ERROR.getValue());
-        vReadTransducerChannelTEDSResponse.set_transducerChannelTEDS(channelTEDS.toString());
-        vReadTransducerChannelTEDSResponse.set_CheckSum((short) 1);
-        vReadTransducerChannelTEDSResponse.set_Length((short) 1);
-        vReadTransducerChannelTEDSResponse.set_MessageID((short) 1);
-        vReadTransducerChannelTEDSResponse.set_MessageType((byte) 1);
-        vReadTransducerChannelTEDSResponse.set_SequenceNo((byte) 1);
-        vReadTransducerChannelTEDSResponse.set_SessionNo((byte) 1);
-        vReadTransducerChannelTEDSResponse.set_Status((byte) 1);
+    	ReadTransducerSampleDataFromAChannelOfATIMResponse vReadTransducerSampleDataFromAChannelOfATIMResponse = create_ReadTransducerSampleDataFromAChannelOfATIMResponse();
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_channelId(interaction.get_channelId());
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_errorCode(NO_ERROR.getValue());
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_ncapId(interaction.get_ncapId());
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_timId(interaction.get_timId());
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData("" + sensor.getMeasuredTemperature());
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_CheckSum((short) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Length((short) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_MessageID((short) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_MessageType((byte) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Priority((byte) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SequenceNo((byte) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SessionNo((byte) 1);
+        vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Status((byte) 1);
+        
         try {
-			vReadTransducerChannelTEDSResponse.sendInteraction(getLRC(), currentTime);
+			vReadTransducerSampleDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
 		} catch (Exception e) {
-			log.error("An error occured");
+			log.error("Error occured during interaction");
 		}
+
+        log.info("Sending data");
     }
 
     private void handleInteractionClass(InitializeSensor interaction) {
