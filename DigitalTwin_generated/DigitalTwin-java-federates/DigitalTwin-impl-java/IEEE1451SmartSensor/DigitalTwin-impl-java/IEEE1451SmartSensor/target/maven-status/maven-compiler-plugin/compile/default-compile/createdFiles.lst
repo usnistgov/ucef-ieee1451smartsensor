@@ -1,0 +1,12 @@
+DigitalTwin/ChannelIDTEDS.class
+DigitalTwin/IEEE1451SmartSensor.class
+DigitalTwin/Float32.class
+DigitalTwin/UNITS.class
+DigitalTwin/IEEE1451Dot0TransducerServices.class
+DigitalTwin/UInt16.class
+DigitalTwin/_String.class
+DigitalTwin/UInt8.class
+DigitalTwin/UInt32.class
+DigitalTwin/ChannelTEDS.class
+DigitalTwin/Tester.class
+DigitalTwin/TemperatureSensor.class

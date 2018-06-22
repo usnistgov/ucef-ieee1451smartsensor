@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <copy todir="/home/vagrant/Downloads/DigitalTwin2.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/SmartSensorTester/target/conf" overwrite="true">
+    <fileset dir="/home/vagrant/Downloads/DigitalTwin2.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/SmartSensorTester/conf"/>
+  </copy>
+  <copy todir="/home/vagrant/Downloads/DigitalTwin2.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/SmartSensorTester/target" overwrite="true">
+    <fileset file="/home/vagrant/Downloads/DigitalTwin2.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/SmartSensorTester/RTI.rid"/>
+  </copy>
+</target>
+</project>
