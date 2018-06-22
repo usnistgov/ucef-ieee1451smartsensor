@@ -1,13 +1,20 @@
 package DigitalTwin;
 
+import java.awt.Component;
+import java.awt.Dimension;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.cpswt.config.FederateConfig;
 import org.cpswt.config.FederateConfigParser;
 import org.cpswt.hla.InteractionRoot;
 import org.cpswt.hla.base.AdvanceTimeRequest;
-import org.cpswt.utils.CpswtDefaults;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * The SmartSensorTester type of federate for the federation designed in WebGME.
@@ -17,6 +24,20 @@ public class SmartSensorTester extends SmartSensorTesterBase {
 
     private final static Logger log = LogManager.getLogger(SmartSensorTester.class);
 
+    public static final String TITLE = "Smart_Sensor_Tester";
+	public static final int WIDTH = 540;
+	public static final int HEIGHT = 360;
+	public static final Dimension dim = new Dimension(540,360);
+
+	private JFrame frame;
+	private JButton readTransducerSampleDataFromAChannelOfATIMButton;
+	private JButton readTransducerBlockDataFromAChannelOfATIMButton;
+	private JButton readTransducerChannelIdTEDSButton;
+	private JButton readTransducerChannelTEDSButton;
+	private BoxLayout layout;
+	private JLabel outputLabel;
+	private JTextArea output;
+	
     double currentTime = 0;
 
     public SmartSensorTester(FederateConfig params) throws Exception {
@@ -27,10 +48,7 @@ public class SmartSensorTester extends SmartSensorTesterBase {
 
         InteractionRoot interaction = null;
         while ((interaction = getNextInteractionNoWait()) != null) {
-            if (interaction instanceof ReadTransducerChannelIdTEDSResponse) {
-                handleInteractionClass((ReadTransducerChannelIdTEDSResponse) interaction);
-            }
-            else if (interaction instanceof ReadTransducerSampleDataFromAChannelOfATIMResponse) {
+            if (interaction instanceof ReadTransducerSampleDataFromAChannelOfATIMResponse) {
                 handleInteractionClass((ReadTransducerSampleDataFromAChannelOfATIMResponse) interaction);
             }
             else if (interaction instanceof ReadTransducerBlockDataFromAChannelOfATIMResponse) {
@@ -38,6 +56,9 @@ public class SmartSensorTester extends SmartSensorTesterBase {
             }
             else if (interaction instanceof ReadTransducerChannelTEDSResponse) {
                 handleInteractionClass((ReadTransducerChannelTEDSResponse) interaction);
+            }
+            else if (interaction instanceof ReadTransducerChannelIdTEDSResponse) {
+                handleInteractionClass((ReadTransducerChannelIdTEDSResponse) interaction);
             }
             log.info("Interaction received and handled: " + s);
         }
@@ -52,6 +73,35 @@ public class SmartSensorTester extends SmartSensorTesterBase {
         /////////////////////////////////////////////
         // TODO perform basic initialization below //
         /////////////////////////////////////////////
+        frame = new JFrame(TITLE);
+ 		readTransducerSampleDataFromAChannelOfATIMButton = new JButton("ReadTransducerSampleDataFromAChannelOfATIMRequest");
+ 		readTransducerSampleDataFromAChannelOfATIMButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+ 		readTransducerBlockDataFromAChannelOfATIMButton = new JButton("ReadTransducerBlockDataFromAChannelOfATIMRequest");
+ 		readTransducerBlockDataFromAChannelOfATIMButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+ 		readTransducerChannelTEDSButton = new JButton("ReadTransducerChannelTEDSRequest");
+ 		readTransducerChannelTEDSButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+ 		readTransducerChannelIdTEDSButton = new JButton("ReadTransducerChannelIdTEDSRequest");
+ 		readTransducerChannelIdTEDSButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+ 		
+ 		layout = new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS);
+ 		outputLabel = new JLabel("Output");
+ 		output = new JTextArea();
+ 		output.setWrapStyleWord(true);
+ 		output.setEditable(false);
+
+ 		// JFrame setup
+ 		frame.setMinimumSize(dim);
+     	frame.getContentPane().setLayout(layout);
+ 		frame.setLocationRelativeTo(null);
+
+ 		frame.getContentPane().add(readTransducerSampleDataFromAChannelOfATIMButton);
+ 		frame.getContentPane().add(readTransducerBlockDataFromAChannelOfATIMButton);
+ 		frame.getContentPane().add(readTransducerChannelTEDSButton);
+ 		frame.getContentPane().add(readTransducerChannelIdTEDSButton);
+ 		frame.getContentPane().add(outputLabel);
+ 		frame.getContentPane().add(output);
+
+ 		frame.setVisible(true);
 
         AdvanceTimeRequest atr = new AdvanceTimeRequest(currentTime);
         putAdvanceTimeRequest(atr);
@@ -79,6 +129,30 @@ public class SmartSensorTester extends SmartSensorTesterBase {
         // it is used to break the loop so that latejoiner federates can
         // notify the federation manager that they left the federation
         boolean exitCondition = false;
+        
+        readTransducerSampleDataFromAChannelOfATIMButton.addActionListener(e -> {
+        	ReadTransducerSampleDataFromAChannelOfATIMRequest vReadTransducerSampleDataFromAChannelOfATIMRequest = create_ReadTransducerSampleDataFromAChannelOfATIMRequest();
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_CheckSum((short) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Length((short) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_MessageID((short) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_MessageType((byte) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Priority((byte) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_SequenceNo((short) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_SessionNo((byte) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Status((byte) 1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_channelId(1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_ncapId(1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_samplingMode(1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timId(1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timeoutNsecs(1);
+            vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timeoutSecs(1);
+            try {
+				vReadTransducerSampleDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+        
+        });
 
         while (true) {
             currentTime += super.getStepSize();
@@ -107,6 +181,11 @@ public class SmartSensorTester extends SmartSensorTesterBase {
             //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timeoutSecs( < YOUR VALUE HERE > );
             //    vReadTransducerSampleDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
             //
+            //    InitializeSensor vInitializeSensor = create_InitializeSensor();
+            //    vInitializeSensor.set_inputVoltage( < YOUR VALUE HERE > );
+            //    vInitializeSensor.set_realTemperature( < YOUR VALUE HERE > );
+            //    vInitializeSensor.sendInteraction(getLRC(), currentTime);
+            //
             //    ReadTransducerChannelIdTEDSRequest vReadTransducerChannelIdTEDSRequest = create_ReadTransducerChannelIdTEDSRequest();
             //    vReadTransducerChannelIdTEDSRequest.set_CheckSum( < YOUR VALUE HERE > );
             //    vReadTransducerChannelIdTEDSRequest.set_Length( < YOUR VALUE HERE > );
@@ -122,22 +201,6 @@ public class SmartSensorTester extends SmartSensorTesterBase {
             //    vReadTransducerChannelIdTEDSRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
             //    vReadTransducerChannelIdTEDSRequest.set_timeoutSecs( < YOUR VALUE HERE > );
             //    vReadTransducerChannelIdTEDSRequest.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerChannelTEDSRequest vReadTransducerChannelTEDSRequest = create_ReadTransducerChannelTEDSRequest();
-            //    vReadTransducerChannelTEDSRequest.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timeoutSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.sendInteraction(getLRC(), currentTime);
             //
             //    FaultInjection vFaultInjection = create_FaultInjection();
             //    vFaultInjection.set_FaultCode( < YOUR VALUE HERE > );
@@ -164,6 +227,22 @@ public class SmartSensorTester extends SmartSensorTesterBase {
             //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_timeoutSecs( < YOUR VALUE HERE > );
             //    vReadTransducerBlockDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
             //
+            //    ReadTransducerChannelTEDSRequest vReadTransducerChannelTEDSRequest = create_ReadTransducerChannelTEDSRequest();
+            //    vReadTransducerChannelTEDSRequest.set_CheckSum( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_Length( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_MessageID( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_MessageType( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_Priority( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_SequenceNo( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_SessionNo( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_Status( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_channelId( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_ncapId( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_timId( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.set_timeoutSecs( < YOUR VALUE HERE > );
+            //    vReadTransducerChannelTEDSRequest.sendInteraction(getLRC(), currentTime);
+            //
             ////////////////////////////////////////////////////////////////////////////////////////
 
             CheckReceivedSubscriptions("Main Loop");
@@ -185,16 +264,9 @@ public class SmartSensorTester extends SmartSensorTesterBase {
         super.notifyFederationOfResign();
     }
 
-    private void handleInteractionClass(ReadTransducerChannelIdTEDSResponse interaction) {
-        //////////////////////////////////////////////////////////////////////////
-        // TODO implement how to handle reception of the interaction            //
-        //////////////////////////////////////////////////////////////////////////
-    }
-
     private void handleInteractionClass(ReadTransducerSampleDataFromAChannelOfATIMResponse interaction) {
-        //////////////////////////////////////////////////////////////////////////
-        // TODO implement how to handle reception of the interaction            //
-        //////////////////////////////////////////////////////////////////////////
+    	log.info("Received Reply: " + interaction.get_transducerSampleData());
+		output.append("Measured Temperature:" + interaction.get_transducerSampleData() +"\n");
     }
 
     private void handleInteractionClass(ReadTransducerBlockDataFromAChannelOfATIMResponse interaction) {
@@ -204,6 +276,12 @@ public class SmartSensorTester extends SmartSensorTesterBase {
     }
 
     private void handleInteractionClass(ReadTransducerChannelTEDSResponse interaction) {
+        //////////////////////////////////////////////////////////////////////////
+        // TODO implement how to handle reception of the interaction            //
+        //////////////////////////////////////////////////////////////////////////
+    }
+
+    private void handleInteractionClass(ReadTransducerChannelIdTEDSResponse interaction) {
         //////////////////////////////////////////////////////////////////////////
         // TODO implement how to handle reception of the interaction            //
         //////////////////////////////////////////////////////////////////////////

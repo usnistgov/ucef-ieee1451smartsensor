@@ -625,6 +625,48 @@
             </parameter>
         </interactionClass>
         <interactionClass>
+            <name>InitializeSensor</name>
+            <sharing>PublishSubscribe</sharing>
+            <transportation>HLAreliable</transportation>
+            <order>TimeStamp</order>
+
+            <parameter> 
+                <name>actualLogicalGenerationTime</name>
+                <dataType>double</dataType>
+                <semantics></semantics>
+            </parameter>
+
+            <parameter> 
+                <name>federateFilter</name>
+                <dataType>String</dataType>
+                <semantics></semantics>
+            </parameter>
+
+            <parameter> 
+                <name>inputVoltage</name>
+                <dataType>int</dataType>
+                <semantics></semantics>
+            </parameter>
+
+            <parameter> 
+                <name>originFed</name>
+                <dataType>String</dataType>
+                <semantics></semantics>
+            </parameter>
+
+            <parameter> 
+                <name>realTemperature</name>
+                <dataType>int</dataType>
+                <semantics></semantics>
+            </parameter>
+
+            <parameter> 
+                <name>sourceFed</name>
+                <dataType>String</dataType>
+                <semantics></semantics>
+            </parameter>
+        </interactionClass>
+        <interactionClass>
             <name>ReadTransducerBlockDataFromAChannelOfATIMRequest</name>
             <sharing>PublishSubscribe</sharing>
             <transportation>HLAreliable</transportation>

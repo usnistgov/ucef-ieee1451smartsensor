@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <copy todir="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/target/conf" overwrite="true">
-    <fileset dir="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/conf"/>
+  <copy todir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/target/conf" overwrite="true">
+    <fileset dir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/conf"/>
   </copy>
-  <copy todir="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/target" overwrite="true">
-    <fileset file="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/RTI.rid"/>
+  <copy todir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/target" overwrite="true">
+    <fileset file="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_generated/DigitalTwin-java-federates/DigitalTwin-impl-java/IEEE1451SmartSensor/RTI.rid"/>
   </copy>
 </target>
 </project>

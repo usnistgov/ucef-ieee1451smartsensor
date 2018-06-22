@@ -31,17 +31,12 @@ public class SmartSensorTesterBase extends SynchronizedFederate {
         // interaction pubsub
         
         ReadTransducerSampleDataFromAChannelOfATIMRequest.publish(getLRC());
+        InitializeSensor.publish(getLRC());
         ReadTransducerChannelIdTEDSRequest.publish(getLRC());
-        ReadTransducerChannelTEDSRequest.publish(getLRC());
         FaultInjection.publish(getLRC());
         ReadTransducerBlockDataFromAChannelOfATIMRequest.publish(getLRC());
+        ReadTransducerChannelTEDSRequest.publish(getLRC());
         
-        ReadTransducerChannelIdTEDSResponse.subscribe(getLRC());
-        _subscribedInteractionFilter.setFedFilters( 
-			ReadTransducerChannelIdTEDSResponse.get_handle(), 
-			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
-			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
-		);
         ReadTransducerSampleDataFromAChannelOfATIMResponse.subscribe(getLRC());
         _subscribedInteractionFilter.setFedFilters( 
 			ReadTransducerSampleDataFromAChannelOfATIMResponse.get_handle(), 
@@ -59,6 +54,12 @@ public class SmartSensorTesterBase extends SynchronizedFederate {
 			ReadTransducerChannelTEDSResponse.get_handle(), 
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
+		);
+        ReadTransducerChannelIdTEDSResponse.subscribe(getLRC());
+        _subscribedInteractionFilter.setFedFilters( 
+			ReadTransducerChannelIdTEDSResponse.get_handle(), 
+			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
+			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);		
 		// object pubsub
                 	}
@@ -70,14 +71,14 @@ public class SmartSensorTesterBase extends SynchronizedFederate {
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
 	}
-	public ReadTransducerChannelIdTEDSRequest create_ReadTransducerChannelIdTEDSRequest() {
-	   ReadTransducerChannelIdTEDSRequest interaction = new ReadTransducerChannelIdTEDSRequest();
+	public InitializeSensor create_InitializeSensor() {
+	   InitializeSensor interaction = new InitializeSensor();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
 	}
-	public ReadTransducerChannelTEDSRequest create_ReadTransducerChannelTEDSRequest() {
-	   ReadTransducerChannelTEDSRequest interaction = new ReadTransducerChannelTEDSRequest();
+	public ReadTransducerChannelIdTEDSRequest create_ReadTransducerChannelIdTEDSRequest() {
+	   ReadTransducerChannelIdTEDSRequest interaction = new ReadTransducerChannelIdTEDSRequest();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
@@ -90,6 +91,12 @@ public class SmartSensorTesterBase extends SynchronizedFederate {
 	}
 	public ReadTransducerBlockDataFromAChannelOfATIMRequest create_ReadTransducerBlockDataFromAChannelOfATIMRequest() {
 	   ReadTransducerBlockDataFromAChannelOfATIMRequest interaction = new ReadTransducerBlockDataFromAChannelOfATIMRequest();
+	   interaction.set_sourceFed( getFederateId() );
+	   interaction.set_originFed( getFederateId() );
+	   return interaction;
+	}
+	public ReadTransducerChannelTEDSRequest create_ReadTransducerChannelTEDSRequest() {
+	   ReadTransducerChannelTEDSRequest interaction = new ReadTransducerChannelTEDSRequest();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;

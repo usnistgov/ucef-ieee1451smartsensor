@@ -30,14 +30,14 @@ public class IEEE1451SmartSensorBase extends SynchronizedFederate {
 		enableAsynchronousDelivery();
         // interaction pubsub
         
-        ReadTransducerBlockDataFromAChannelOfATIMResponse.publish(getLRC());
-        ReadTransducerChannelIdTEDSResponse.publish(getLRC());
         ReadTransducerSampleDataFromAChannelOfATIMResponse.publish(getLRC());
+        ReadTransducerChannelIdTEDSResponse.publish(getLRC());
         ReadTransducerChannelTEDSResponse.publish(getLRC());
+        ReadTransducerBlockDataFromAChannelOfATIMResponse.publish(getLRC());
         
-        ReadTransducerChannelIdTEDSRequest.subscribe(getLRC());
+        ReadTransducerBlockDataFromAChannelOfATIMRequest.subscribe(getLRC());
         _subscribedInteractionFilter.setFedFilters( 
-			ReadTransducerChannelIdTEDSRequest.get_handle(), 
+			ReadTransducerBlockDataFromAChannelOfATIMRequest.get_handle(), 
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);
@@ -47,9 +47,9 @@ public class IEEE1451SmartSensorBase extends SynchronizedFederate {
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);
-        ReadTransducerChannelTEDSRequest.subscribe(getLRC());
+        InitializeSensor.subscribe(getLRC());
         _subscribedInteractionFilter.setFedFilters( 
-			ReadTransducerChannelTEDSRequest.get_handle(), 
+			InitializeSensor.get_handle(), 
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);
@@ -59,9 +59,15 @@ public class IEEE1451SmartSensorBase extends SynchronizedFederate {
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);
-        ReadTransducerBlockDataFromAChannelOfATIMRequest.subscribe(getLRC());
+        ReadTransducerChannelIdTEDSRequest.subscribe(getLRC());
         _subscribedInteractionFilter.setFedFilters( 
-			ReadTransducerBlockDataFromAChannelOfATIMRequest.get_handle(), 
+			ReadTransducerChannelIdTEDSRequest.get_handle(), 
+			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
+			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
+		);
+        ReadTransducerChannelTEDSRequest.subscribe(getLRC());
+        _subscribedInteractionFilter.setFedFilters( 
+			ReadTransducerChannelTEDSRequest.get_handle(), 
 			SubscribedInteractionFilter.OriginFedFilter.ORIGIN_FILTER_DISABLED, 
 			SubscribedInteractionFilter.SourceFedFilter.SOURCE_FILTER_DISABLED 
 		);		
@@ -69,8 +75,8 @@ public class IEEE1451SmartSensorBase extends SynchronizedFederate {
                 	}
         
 	
-	public ReadTransducerBlockDataFromAChannelOfATIMResponse create_ReadTransducerBlockDataFromAChannelOfATIMResponse() {
-	   ReadTransducerBlockDataFromAChannelOfATIMResponse interaction = new ReadTransducerBlockDataFromAChannelOfATIMResponse();
+	public ReadTransducerSampleDataFromAChannelOfATIMResponse create_ReadTransducerSampleDataFromAChannelOfATIMResponse() {
+	   ReadTransducerSampleDataFromAChannelOfATIMResponse interaction = new ReadTransducerSampleDataFromAChannelOfATIMResponse();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
@@ -81,14 +87,14 @@ public class IEEE1451SmartSensorBase extends SynchronizedFederate {
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
 	}
-	public ReadTransducerSampleDataFromAChannelOfATIMResponse create_ReadTransducerSampleDataFromAChannelOfATIMResponse() {
-	   ReadTransducerSampleDataFromAChannelOfATIMResponse interaction = new ReadTransducerSampleDataFromAChannelOfATIMResponse();
+	public ReadTransducerChannelTEDSResponse create_ReadTransducerChannelTEDSResponse() {
+	   ReadTransducerChannelTEDSResponse interaction = new ReadTransducerChannelTEDSResponse();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;
 	}
-	public ReadTransducerChannelTEDSResponse create_ReadTransducerChannelTEDSResponse() {
-	   ReadTransducerChannelTEDSResponse interaction = new ReadTransducerChannelTEDSResponse();
+	public ReadTransducerBlockDataFromAChannelOfATIMResponse create_ReadTransducerBlockDataFromAChannelOfATIMResponse() {
+	   ReadTransducerBlockDataFromAChannelOfATIMResponse interaction = new ReadTransducerBlockDataFromAChannelOfATIMResponse();
 	   interaction.set_sourceFed( getFederateId() );
 	   interaction.set_originFed( getFederateId() );
 	   return interaction;

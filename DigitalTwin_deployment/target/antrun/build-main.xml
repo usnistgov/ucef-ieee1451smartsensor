@@ -2,7 +2,7 @@
 <project name="maven-antrun-" default="main"  >
 <target name="main">
   <echo message="Creating folder for the execution..."/>
-  <mkdir dir="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_deployment/target/IEEE1451SmartSensor"/>
-  <mkdir dir="/home/vagrant/Downloads/DigitalTwin3.0/DigitalTwin_deployment/target/SmartSensorTester"/>
+  <mkdir dir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_deployment/target/IEEE1451SmartSensor"/>
+  <mkdir dir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/DigitalTwin_deployment/target/SmartSensorTester"/>
 </target>
 </project>

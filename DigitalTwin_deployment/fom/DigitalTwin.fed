@@ -368,6 +368,14 @@
   (parameter originFed)
   (parameter sourceFed)
 )
+(class InitializeSensor reliable timestamp 
+  (parameter actualLogicalGenerationTime)
+  (parameter federateFilter)
+  (parameter inputVoltage)
+  (parameter originFed)
+  (parameter realTemperature)
+  (parameter sourceFed)
+)
 (class ReadTransducerBlockDataFromAChannelOfATIMRequest reliable timestamp 
   (parameter CheckSum)
   (parameter Length)
