@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <copy todir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorTester_generated/IEEE1451SmartSensorTester-java-federates/IEEE1451SmartSensorTester-impl-java/IEEE1451SmartSensorTester/target/conf" overwrite="true">
+    <fileset dir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorTester_generated/IEEE1451SmartSensorTester-java-federates/IEEE1451SmartSensorTester-impl-java/IEEE1451SmartSensorTester/conf"/>
+  </copy>
+  <copy todir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorTester_generated/IEEE1451SmartSensorTester-java-federates/IEEE1451SmartSensorTester-impl-java/IEEE1451SmartSensorTester/target" overwrite="true">
+    <fileset file="/home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorTester_generated/IEEE1451SmartSensorTester-java-federates/IEEE1451SmartSensorTester-impl-java/IEEE1451SmartSensorTester/RTI.rid"/>
+  </copy>
+</target>
+</project>

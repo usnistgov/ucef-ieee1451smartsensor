@@ -1,0 +1,8 @@
+{
+  "federateRTIInitWaitTimeMs": 200,
+  "federateType": "IEEE1451SmartSensor",
+  "federationId": "IEEE1451SmartSensorSimulator",
+  "isLateJoiner": false,
+  "lookAhead": "0.2",
+  "stepSize": "1.0"
+}

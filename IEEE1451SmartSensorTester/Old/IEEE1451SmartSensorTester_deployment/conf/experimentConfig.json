@@ -1,0 +1,17 @@
+{
+  "federateTypesAllowed": [
+    "IEEE1451SmartSensorTester"
+  ],
+  "expectedFederates": [
+    {
+      "federateType": "IEEE1451SmartSensorTester",
+      "count": 1
+    }
+  ],
+  "lateJoinerFederates": [
+    {
+      "federateType": "IEEE1451SmartSensorTester",
+      "count": 0
+    }
+  ]
+}

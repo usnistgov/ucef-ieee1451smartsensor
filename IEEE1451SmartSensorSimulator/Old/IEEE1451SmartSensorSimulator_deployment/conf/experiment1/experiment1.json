@@ -1,0 +1,15 @@
+{
+  "federateTypesAllowed": [
+    "IEEE1451SmartSensor"
+  ],
+  "expectedFederates": [
+    {
+      "federateType": "IEEE1451SmartSensor",
+      "count": 1
+    }
+  ],
+  "lateJoinerFederates": [],
+  "coaDefinition": "conf/NewcoaConfig.json",
+  "coaSelection": "conf/experiment1/coaSelection_experiment1.json",
+  "terminateOnCOAFinish": false
+}

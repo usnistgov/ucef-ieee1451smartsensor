@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <echo message="Creating folder for the execution..."/>
+  <mkdir dir="/home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorSimulator_deployment/target/IEEE1451SmartSensor"/>
+</target>
+</project>
