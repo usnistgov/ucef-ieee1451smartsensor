@@ -62,7 +62,7 @@ fi
 #read response
 
 # run the federation manager
-cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_deployment
+cd IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_deployment
 xterm -fg white -bg black -l -lf $logs_directory/federation-manager-${timestamp}.log -T "Federation Manager" -geometry 100x20+0+0 -e "export CPSWT_ROOT=`pwd` && mvn exec:java -P FederationManagerExecJava" &
 
 printf "Waiting for the federation manager to come online.."
@@ -75,11 +75,11 @@ printf "\n"
 curl -o /dev/null -s -X POST http://$fedmgr_host:$fedmgr_port/fedmgr --data '{"action": "START"}' -H "Content-Type: application/json"
 
 # run the other federates
-cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment
+cd IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment
 xterm -fg yellow -bg black -l -lf $logs_directory/smart-sensor-${timestamp}.log -T "IEEE1451SmartSensorSimulator" -geometry 100x30+0+325 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorSimulator" &
 waitUntilJoined IEEE1451SmartSensor 1
 
-cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_deployment
+cd IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_deployment
 xterm -fg green -bg black -l -lf $logs_directory/tester-${timestamp}.log -T "IEEE1451SmartSensorTester" -geometry 100x30+650+0 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorTester" &
 waitUntilJoined IEEE1451SmartSensorTester 1
 
