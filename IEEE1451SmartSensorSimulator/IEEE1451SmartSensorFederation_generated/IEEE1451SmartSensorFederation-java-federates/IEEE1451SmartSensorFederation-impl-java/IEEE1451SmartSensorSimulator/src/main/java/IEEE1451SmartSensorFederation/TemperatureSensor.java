@@ -60,7 +60,7 @@ public class TemperatureSensor {
 	 * @return the measuredTemperature
 	 * @throws SensorNonOperableException  
 	 */
-	public double getMeasuredTemperature() throws SensorNonOperableException{
+	public double getMeasuredTemperature() throws SensorNonOperableException {
 		if (isOperable()) {
 			if (isBetween(realTemperature, MIN_OPERATING_TEMP, -10))
 				measuredTemperature = realTemperature + plusMinus() * (.3 - (realTemperature+10)/450.0);
@@ -75,6 +75,7 @@ public class TemperatureSensor {
 			measuredTemperature = Double.POSITIVE_INFINITY;
 			throw new SensorNonOperableException();
 		}
+		measuredTemperature = Double.parseDouble(String.format("%.2f", measuredTemperature));
 		return measuredTemperature;
 	}
 	
