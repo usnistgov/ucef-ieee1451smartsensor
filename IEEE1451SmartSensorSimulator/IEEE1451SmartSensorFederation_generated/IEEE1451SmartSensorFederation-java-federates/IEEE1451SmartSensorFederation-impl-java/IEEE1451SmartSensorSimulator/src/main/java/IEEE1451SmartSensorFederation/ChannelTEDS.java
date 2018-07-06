@@ -1,5 +1,7 @@
 package IEEE1451SmartSensorFederation;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class ChannelTEDS {
 
 	private UInt8 TEDSID;
@@ -60,6 +62,7 @@ public class ChannelTEDS {
 		setUnitsExt(new UInt8());
 		setLowLimit(new Float32());
 		setHiLimit(new Float32());
+		setOError(new Float32());
 		setSelfTest(new UInt8());
 		setMRange(new UInt8());
 		setDatModel(new UInt8());
@@ -627,5 +630,15 @@ public class ChannelTEDS {
 	 */
 	public void setTSError(Float32 tSError) {
 		TSError = tSError;
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public static ChannelTEDS getLM35AChannelTEDS() {
+		ChannelTEDS teds = new ChannelTEDS();
+		return teds;
 	}
 }

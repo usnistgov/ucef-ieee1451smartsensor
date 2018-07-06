@@ -2,6 +2,7 @@ package IEEE1451SmartSensorFederation;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -171,7 +172,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			try {
 				vReadTransducerSampleDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				log.error(e1);
 			}
 
 		});
@@ -247,6 +248,30 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			catch (NumberFormatException e1) {
 				request.set_timeoutSecs(20);
 			}
+			
+			try {
+				request.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e1) {
+				log.error(e1);
+			}
+		});
+		
+		readTransducerChannelIdTEDSButton.addActionListener(e -> {
+			ReadTransducerChannelIdTEDSRequest request = create_ReadTransducerChannelIdTEDSRequest();
+			request.set_CheckSum((short) 1);
+			request.set_Length((short) 1);
+			request.set_MessageID((short) 1);
+			request.set_MessageType((byte) 1);
+			request.set_Priority((byte) 1);
+			request.set_SequenceNo((short) 1);
+			request.set_SessionNo((byte) 1);
+			request.set_Status((byte) 1);
+            
+			request.set_channelId(1);
+			request.set_ncapId(1);
+			request.set_timId(1);
+			request.set_timeoutNsecs(0);
+			request.set_timeoutSecs(20);
 			
 			try {
 				request.sendInteraction(getLRC(), currentTime);
@@ -453,9 +478,20 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
     }
 
     private void handleInteractionClass(ReadTransducerChannelIdTEDSResponse interaction) {
-        //////////////////////////////////////////////////////////////////////////
-        // TODO implement how to handle reception of the interaction            //
-        //////////////////////////////////////////////////////////////////////////
+		String msg = interaction.get_transducerChannelIdTEDS();
+		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
+		
+//		String[] teds = msg.split(",");
+//		HashMap<String,String> tedsData = new HashMap<>();
+//		
+//		for (String s: teds) {
+//			String[] kvPair = s.split("=");
+//			String key = kvPair[0].trim();
+//			String value = kvPair[1].trim();
+//			tedsData.put(key, value);
+//		}
+		msg = msg.replace(",", "\n");
+		output.append(msg);
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,7 @@
 package IEEE1451SmartSensorFederation;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class ChannelIDTEDS {
 
 	private _String manufacturerID;
@@ -56,9 +58,19 @@ public class ChannelIDTEDS {
 		this.channelDescription = channelDescription;
 	}
 	
+	public static ChannelIDTEDS getLM35AChannelIDTEDS() {
+		ChannelIDTEDS channelIDTEDS = new ChannelIDTEDS();
+		channelIDTEDS.setManufacturerID(new _String("Texas Instruments"));
+		channelIDTEDS.setModelNo(new _String("LM35A"));
+		channelIDTEDS.setSerialNo(new _String("115445125146"));
+		channelIDTEDS.setVersionCode(new _String("35A"));
+		channelIDTEDS.setChannelDescription(new _String("Precision Centigrade Temperature Sensors"));
+		
+		return channelIDTEDS;
+	}
+	
 	@Override
 	public String toString() {
-		return manufacturerID + "," + modelNo + "," + versionCode + "," + serialNo + ","
-				+ channelDescription;
+		return ToStringBuilder.reflectionToString(this);
 	}
 }

@@ -47,8 +47,8 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 	private final static UInt16 MEMORY_RESOURCE_EXCEEDED = new UInt16(20);
 
 	private TemperatureSensor sensor = new TemperatureSensor();
-	private ChannelTEDS channelTEDS = new ChannelTEDS();
-	private ChannelIDTEDS channelIDTEDS = new ChannelIDTEDS();
+	private ChannelTEDS channelTEDS = ChannelTEDS.getLM35AChannelTEDS();
+	private ChannelIDTEDS channelIDTEDS = ChannelIDTEDS.getLM35AChannelIDTEDS();
 	private String data = "";
 	
     double currentTime = 0;
@@ -88,12 +88,7 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
             currentTime = super.getLBTS() - super.getLookAhead();
             super.disableTimeRegulation();
         }
-
-        channelIDTEDS.setManufacturerID(new _String("Texas Instruments"));
-		channelIDTEDS.setModelNo(new _String("LM35A"));
-		channelIDTEDS.setSerialNo(new _String("115445125146"));
-		channelIDTEDS.setVersionCode(new _String("35A"));
-		channelIDTEDS.setChannelDescription(new _String("Precision Centigrade Temperature Sensors"));
+        channelIDTEDS.setChannelDescription(new _String("Hello"));
 		sensor.setInputVoltage(5);
 		sensor.setRealTemperature(70);
 		

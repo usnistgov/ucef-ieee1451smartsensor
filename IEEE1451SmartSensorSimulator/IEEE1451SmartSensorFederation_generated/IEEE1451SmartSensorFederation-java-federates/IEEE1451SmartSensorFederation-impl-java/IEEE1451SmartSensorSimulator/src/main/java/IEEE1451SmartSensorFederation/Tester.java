@@ -13,7 +13,7 @@ import javax.swing.JRadioButton;
 
 public class Tester {
 	private static String data = "";
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		TemperatureSensor sensor = new TemperatureSensor();
 		File file = new File("output.csv");
 		PrintWriter output = null;
@@ -64,6 +64,15 @@ public class Tester {
 		//		}
 		//		System.out.println("Done!");
 		output.flush();
+	}*/
+	
+	public static void main(String[] args) {
+		ChannelIDTEDS channelIDTEDS = ChannelIDTEDS.getLM35AChannelIDTEDS();
+		channelIDTEDS.setChannelDescription(new _String("Hello"));
+		String msg = channelIDTEDS.toString();
+		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
+		msg = msg.replace(",", "\n");
+		System.out.println(msg);
 	}
 
 
