@@ -37,7 +37,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 
 	public static final String TITLE = "Smart_Sensor_Tester";
 	public static final int WIDTH = 540;
-	public static final int HEIGHT = 360;
+	public static final int HEIGHT = 800;
 	public static final Dimension dim = new Dimension(540,360);
 
 	private JFrame frame;
@@ -111,7 +111,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		// JFrame setup
 		frame.setMinimumSize(dim);
 		frame.getContentPane().setLayout(layout);
-		frame.setLocationRelativeTo(null);
+		frame.setExtendedState(JFrame.MAXIMIZED_VERT);
 
 		frame.getContentPane().add(readTransducerSampleDataFromAChannelOfATIMButton);
 		frame.getContentPane().add(readTransducerBlockDataFromAChannelOfATIMButton);
@@ -178,6 +178,32 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		
 		readTransducerBlockDataFromAChannelOfATIMButton.addActionListener(e -> {
 			ReadTransducerBlockDataFromAChannelOfATIMRequest request = create_ReadTransducerBlockDataFromAChannelOfATIMRequest();
+			JPanel jp = new JPanel();
+			
+			JLabel numSamplesLabel = new JLabel("Number of Samples");
+			JTextField numSamplesText = new JTextField(5);
+			numSamplesText.setText("5");
+			jp.add(numSamplesLabel);
+			jp.add(numSamplesText);
+			
+			JLabel intervalLabel = new JLabel("Sample Interval(s)");
+			JTextField intervalText = new JTextField(5);
+			intervalText.setText("5");
+			jp.add(intervalLabel);
+			jp.add(intervalText);
+			
+			JLabel startTimeLabel = new JLabel("Start Time(s)");
+			JTextField startTimeText = new JTextField(5);
+			startTimeText.setText("0");
+			jp.add(startTimeLabel);
+			jp.add(startTimeText);
+			
+			JLabel timeoutLabel = new JLabel("Timeout(s)");
+			JTextField timeoutText = new JTextField(5);
+			timeoutText.setText("20");
+			jp.add(timeoutLabel);
+			jp.add(timeoutText);
+
 			request.set_CheckSum((short) 1);
 			request.set_Length((short) 1);
 			request.set_MessageID((short) 1);
@@ -188,14 +214,40 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			request.set_Status((byte) 1);
 			request.set_channelId(1);
 			request.set_ncapId(1);
-			request.set_numberOfSamples(5);
 			request.set_sampleIntervalNsecs(0);
-			request.set_sampleIntervalSecs(5);
 			request.set_startTimeNsecs(0);
-			request.set_startTimeSecs(0);
 			request.set_timId(1);
 			request.set_timeoutNsecs(0);
-			request.set_timeoutSecs(20);
+						
+			JOptionPane.showConfirmDialog(frame, jp, "Initialize Sensor: ", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE);
+			try {
+				request.set_numberOfSamples(Long.parseLong(numSamplesText.getText()));
+			}
+			catch (NumberFormatException e1) {
+				request.set_numberOfSamples(2);
+			}
+			
+			try {
+				request.set_sampleIntervalSecs(Long.parseLong(intervalText.getText()));
+			}
+			catch (NumberFormatException e1) {
+				request.set_sampleIntervalSecs(2);
+			}
+			
+			try {
+				request.set_startTimeSecs(Long.parseLong(startTimeText.getText()));
+			}
+			catch (NumberFormatException e1) {
+				request.set_startTimeSecs(0);
+			}
+			
+			try {
+				request.set_timeoutSecs(Long.parseLong(timeoutText.getText()));
+			}
+			catch (NumberFormatException e1) {
+				request.set_timeoutSecs(20);
+			}
+			
 			try {
 				request.sendInteraction(getLRC(), currentTime);
 			} catch (Exception e1) {
@@ -389,7 +441,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
     }
 
     private void handleInteractionClass(ReadTransducerBlockDataFromAChannelOfATIMResponse interaction) {
-    	String data = interaction.get_transducerBlockData();
+    	String data = "" + interaction.get_transducerBlockData();
 		output.append("BlockData:\n" + data);
 		log.info(data);
     }

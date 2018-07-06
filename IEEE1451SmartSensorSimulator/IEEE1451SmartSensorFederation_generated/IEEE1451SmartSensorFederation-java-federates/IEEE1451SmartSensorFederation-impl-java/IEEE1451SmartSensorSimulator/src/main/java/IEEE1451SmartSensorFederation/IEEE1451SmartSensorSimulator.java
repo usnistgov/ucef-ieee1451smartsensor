@@ -18,7 +18,7 @@ import org.cpswt.hla.base.AdvanceTimeRequest;
 public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBase {
 
     private final static Logger log = LogManager.getLogger(IEEE1451SmartSensorSimulator.class);
-
+	private final static String NAN = "" + 0.0/0.0;
     private final static int RESET_SENSOR = 0;
 	private final static int INPUT_VOLTAGE_OUT_OF_BOUNDS = 1;
 	private final static int TEMPERATURE_OUT_OF_BOUNDS = 2;
@@ -222,7 +222,7 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 		try {
 			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData("" + sensor.getMeasuredTemperature());
 		} catch (SensorNonOperableException e1) {
-			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData("" + 0/0.0);
+			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData(NAN);
 		}
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_CheckSum((short) 1);
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Length((short) 1);
@@ -277,7 +277,13 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 
 					data += sensor.getMeasuredTemperature() + "\n";
 				} catch (SensorNonOperableException e) {
-					e.printStackTrace();
+					vReadTransducerBlockDataFromAChannelOfATIMResponse.set_transducerBlockData(NAN);
+					try {
+						vReadTransducerBlockDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
+					} catch (Exception e1) {
+						log.error("Interaction Failed!");
+					}
+					service.shutdown();
 				} catch (Exception e) {
 					log.error("Error occured during interaction");
 				}
