@@ -138,10 +138,6 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
         // subscriptions published before the first time step.
         ///////////////////////////////////////////////////////////////////////
 
-        ///////////////////////////////////////////////////////////////////////
-        // TODO perform initialization that depends on other federates below //
-        ///////////////////////////////////////////////////////////////////////
-
         if(!super.isLateJoiner()) {
             readyToRun();
         }
@@ -255,7 +251,32 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 				log.error(e1);
 			}
 		});
-		
+
+		readTransducerChannelTEDSButton.addActionListener(e -> {
+			ReadTransducerChannelTEDSRequest request = create_ReadTransducerChannelTEDSRequest();
+			request.set_CheckSum((short) 1);
+			request.set_Length((short) 1);
+			request.set_MessageID((short) 1);
+			request.set_MessageType((byte) 1);
+			request.set_Priority((byte) 1);
+			request.set_SequenceNo((short) 1);
+			request.set_SessionNo((byte) 1);
+			request.set_Status((byte) 1);
+            
+			request.set_channelId(1);
+			request.set_ncapId(1);
+			request.set_timId(1);
+			request.set_timeoutNsecs(0);
+			request.set_timeoutSecs(20);
+			
+			try {
+				request.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e1) {
+				log.error(e1);
+			}
+		});		
+
+
 		readTransducerChannelIdTEDSButton.addActionListener(e -> {
 			ReadTransducerChannelIdTEDSRequest request = create_ReadTransducerChannelIdTEDSRequest();
 			request.set_CheckSum((short) 1);
@@ -356,91 +377,6 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
             atr.requestSyncStart();
             enteredTimeGrantedState();
 
-            ////////////////////////////////////////////////////////////////////////////////////////
-            // TODO send interactions that must be sent every logical time step below.
-            // Set the interaction's parameters.
-            //
-            //    InitializeSensor vInitializeSensor = create_InitializeSensor();
-            //    vInitializeSensor.set_inputVoltage( < YOUR VALUE HERE > );
-            //    vInitializeSensor.set_realTemperature( < YOUR VALUE HERE > );
-            //    vInitializeSensor.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerBlockDataFromAChannelOfATIMRequest vReadTransducerBlockDataFromAChannelOfATIMRequest = create_ReadTransducerBlockDataFromAChannelOfATIMRequest();
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_numberOfSamples( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_sampleIntervalNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_sampleIntervalSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_startTimeNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_startTimeSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.set_timeoutSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerChannelTEDSRequest vReadTransducerChannelTEDSRequest = create_ReadTransducerChannelTEDSRequest();
-            //    vReadTransducerChannelTEDSRequest.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.set_timeoutSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSRequest.sendInteraction(getLRC(), currentTime);
-            //
-            //    FaultInjection vFaultInjection = create_FaultInjection();
-            //    vFaultInjection.set_FaultCode( < YOUR VALUE HERE > );
-            //    vFaultInjection.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerChannelIdTEDSRequest vReadTransducerChannelIdTEDSRequest = create_ReadTransducerChannelIdTEDSRequest();
-            //    vReadTransducerChannelIdTEDSRequest.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.set_timeoutSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSRequest.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerSampleDataFromAChannelOfATIMRequest vReadTransducerSampleDataFromAChannelOfATIMRequest = create_ReadTransducerSampleDataFromAChannelOfATIMRequest();
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_samplingMode( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timeoutNsecs( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.set_timeoutSecs( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMRequest.sendInteraction(getLRC(), currentTime);
-            //
-            ////////////////////////////////////////////////////////////////////////////////////////
-
             CheckReceivedSubscriptions("Main Loop");
 
             // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -472,24 +408,14 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
     }
 
     private void handleInteractionClass(ReadTransducerChannelTEDSResponse interaction) {
-        //////////////////////////////////////////////////////////////////////////
-        // TODO implement how to handle reception of the interaction            //
-        //////////////////////////////////////////////////////////////////////////
+		String msg = interaction.get_transducerChannelTEDS();
+		msg = msg.replace(",", "\n");
+		output.append(msg + "\n");
     }
 
     private void handleInteractionClass(ReadTransducerChannelIdTEDSResponse interaction) {
 		String msg = interaction.get_transducerChannelIdTEDS();
 		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
-		
-//		String[] teds = msg.split(",");
-//		HashMap<String,String> tedsData = new HashMap<>();
-//		
-//		for (String s: teds) {
-//			String[] kvPair = s.split("=");
-//			String key = kvPair[0].trim();
-//			String value = kvPair[1].trim();
-//			tedsData.put(key, value);
-//		}
 		msg = msg.replace(",", "\n");
 		output.append(msg + "\n");
     }

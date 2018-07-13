@@ -1,7 +1,5 @@
 package IEEE1451SmartSensorFederation;
 
-import java.util.Properties;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class ChannelTEDS {
@@ -14,30 +12,23 @@ public class ChannelTEDS {
 	private Float32 HiLimit;
 	private Float32 OError;
 	private UInt8 SelfTest;
-	private UInt8 MRange;
 	private UInt8 DatModel;
 	private UInt8 ModLength;
 	private UInt16 SigBits;
-	private UInt16 Repeats;
-	private Float32 SOrigin;
-	private Float32 StepSize;
-	private UNITS SUnits;
-	private UInt16 PreTrigg;
-	private Float32 UpdateT;;
-	private Float32 WSetupT;
+	private Float32 UpdateT;
 	private Float32 RSetupT;
 	private Float32 SPeriod;
 	private Float32 WarmUpT;
 	private Float32 RDelayT;
 	private Float32 TestTime;
-	private UInt8 TimeSrc;
-	private Float32 InPropDl;
-	private Float32 OutPropD;
-	private Float32 TSError;
+	private UInt8 SampMode;
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		String msg = ToStringBuilder.reflectionToString(this);
+		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
+		msg = msg.replace(",", "\n");
+		return msg;
 	}
 
 	public static ChannelTEDS getLM35AChannelTEDS() {
@@ -45,20 +36,22 @@ public class ChannelTEDS {
 		UInt8[] id = {new UInt8(0), new UInt8(3), new UInt8(1), new UInt8(1)};
 		teds.setTEDSID(id);
 		teds.setCalKey(new UInt8(1));
-		teds.ChanType = new UInt8(0);
-		teds.PhyUnits = UNITS.getTemperatureUNITS();
+		teds.setChanType(new UInt8(0));
+		teds.setPhyUnits(UNITS.getTemperatureUNITS());
 		teds.setLowLimit(new Float32(218));
 		teds.setHiLimit(new Float32(423));
 		teds.setOError(new Float32(1));
 		teds.setSelfTest(new UInt8(1));
+		teds.setDatModel(new UInt8(0));
 		teds.setModLength(new UInt8(2));
 		teds.setSigBits(new UInt16(12));
-		
 		teds.setUpdateT(new Float32(0.1f));
-		
 		teds.setRSetupT(new Float32(.000025f));
+		teds.setSPeriod(new Float32(0.1f));
 		teds.setWarmUpT(new Float32(180));
-		teds.setRSetupT(new Float32(.000025f));
+		teds.setRDelayT(new Float32(.000025f));
+		teds.setTestTime(new Float32(5));
+		teds.setSampMode(new UInt8(2));
 		return teds;
 		
 	}
@@ -72,26 +65,15 @@ public class ChannelTEDS {
 		setHiLimit(new Float32());
 		setOError(new Float32());
 		setSelfTest(new UInt8());
-		setMRange(new UInt8());
 		setDatModel(new UInt8());
 		setModLength(new UInt8());
 		setSigBits(new UInt16());
-		setRepeats(new UInt16());
-		setSOrigin(new Float32());
-		setStepSize(new Float32());
-		setSUnits(new UNITS());
-		setPreTrigg(new UInt16());
 		setUpdateT(new Float32());
-		setWSetupT(new Float32());
 		setRSetupT(new Float32());
 		setSPeriod(new Float32());
 		setWarmUpT(new Float32());
 		setRDelayT(new Float32());
 		setTestTime(new Float32());
-		setTimeSrc(new UInt8());
-		setInPropDl(new Float32());
-		setOutPropD(new Float32());
-		setTSError(new Float32());
 	}
 
 	/**
@@ -178,8 +160,6 @@ public class ChannelTEDS {
 		HiLimit = hiLimit;
 	}
 
-	
-
 	/**
 	 * @return the oError
 	 */
@@ -206,20 +186,6 @@ public class ChannelTEDS {
 	 */
 	public void setSelfTest(UInt8 selfTest) {
 		SelfTest = selfTest;
-	}
-
-	/**
-	 * @return the mRange
-	 */
-	public UInt8 getMRange() {
-		return MRange;
-	}
-
-	/**
-	 * @param mRange the mRange to set
-	 */
-	public void setMRange(UInt8 mRange) {
-		MRange = mRange;
 	}
 
 	/**
@@ -251,34 +217,6 @@ public class ChannelTEDS {
 	}
 
 	/**
-	 * @return the repeats
-	 */
-	public UInt16 getRepeats() {
-		return Repeats;
-	}
-
-	/**
-	 * @param repeats the repeats to set
-	 */
-	public void setRepeats(UInt16 repeats) {
-		Repeats = repeats;
-	}
-
-	/**
-	 * @return the sOrigin
-	 */
-	public Float32 getSOrigin() {
-		return SOrigin;
-	}
-
-	/**
-	 * @param sOrigin the sOrigin to set
-	 */
-	public void setSOrigin(Float32 sOrigin) {
-		SOrigin = sOrigin;
-	}
-
-	/**
 	 * @return the sigBits
 	 */
 	public UInt16 getSigBits() {
@@ -290,48 +228,6 @@ public class ChannelTEDS {
 	 */
 	public void setSigBits(UInt16 sigBits) {
 		SigBits = sigBits;
-	}
-
-	/**
-	 * @return the stepSize
-	 */
-	public Float32 getStepSize() {
-		return StepSize;
-	}
-
-	/**
-	 * @param stepSize the stepSize to set
-	 */
-	public void setStepSize(Float32 stepSize) {
-		StepSize = stepSize;
-	}
-
-	/**
-	 * @return the sUnits
-	 */
-	public UNITS getSUnits() {
-		return SUnits;
-	}
-
-	/**
-	 * @param sUnits the sUnits to set
-	 */
-	public void setSUnits(UNITS sUnits) {
-		SUnits = sUnits;
-	}
-
-	/**
-	 * @return the preTrigg
-	 */
-	public UInt16 getPreTrigg() {
-		return PreTrigg;
-	}
-
-	/**
-	 * @param preTrigg the preTrigg to set
-	 */
-	public void setPreTrigg(UInt16 preTrigg) {
-		PreTrigg = preTrigg;
 	}
 
 	/**
@@ -347,21 +243,6 @@ public class ChannelTEDS {
 	public void setUpdateT(Float32 updateT) {
 		UpdateT = updateT;
 	}
-
-	/**
-	 * @return the wSetupT
-	 */
-	public Float32 getWSetupT() {
-		return WSetupT;
-	}
-
-	/**
-	 * @param wSetupT the wSetupT to set
-	 */
-	public void setWSetupT(Float32 wSetupT) {
-		WSetupT = wSetupT;
-	}
-
 	/**
 	 * @return the rSetupT
 	 */
@@ -433,58 +314,16 @@ public class ChannelTEDS {
 	}
 
 	/**
-	 * @return the timeSrc
+	 * @return the sampMode
 	 */
-	public UInt8 getTimeSrc() {
-		return TimeSrc;
+	public UInt8 getSampMode() {
+		return SampMode;
 	}
 
 	/**
-	 * @param timeSrc the timeSrc to set
+	 * @param sampMode the sampMode to set
 	 */
-	public void setTimeSrc(UInt8 timeSrc) {
-		TimeSrc = timeSrc;
-	}
-
-	/**
-	 * @return the inPropDl
-	 */
-	public Float32 getInPropDl() {
-		return InPropDl;
-	}
-
-	/**
-	 * @param inPropDl the inPropDl to set
-	 */
-	public void setInPropDl(Float32 inPropDl) {
-		InPropDl = inPropDl;
-	}
-
-	/**
-	 * @return the outPropD
-	 */
-	public Float32 getOutPropD() {
-		return OutPropD;
-	}
-
-	/**
-	 * @param outPropD the outPropD to set
-	 */
-	public void setOutPropD(Float32 outPropD) {
-		OutPropD = outPropD;
-	}
-
-	/**
-	 * @return the tSError
-	 */
-	public Float32 getTSError() {
-		return TSError;
-	}
-
-	/**
-	 * @param tSError the tSError to set
-	 */
-	public void setTSError(Float32 tSError) {
-		TSError = tSError;
+	public void setSampMode(UInt8 sampMode) {
+		SampMode = sampMode;
 	}
 }

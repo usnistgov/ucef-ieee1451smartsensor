@@ -1,5 +1,7 @@
 package IEEE1451SmartSensorFederation;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class UNITS {
 	
 	private UInt8 interpretation;
@@ -129,5 +131,12 @@ public class UNITS {
 		temp.candelas = new UInt8(128);
 		temp.interpretation = new UInt8(0);
 		return temp;
+	}
+	
+	@Override
+	public String toString() {
+		String msg = ToStringBuilder.reflectionToString(this);
+		msg = "\n" + msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
+		return msg;
 	}
 }

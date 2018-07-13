@@ -98,15 +98,6 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
             readyToPopulate();
         }
 
-        ///////////////////////////////////////////////////////////////////////
-        // Call CheckReceivedSubscriptions(<message>) here to receive
-        // subscriptions published before the first time step.
-        ///////////////////////////////////////////////////////////////////////
-
-        ///////////////////////////////////////////////////////////////////////
-        // TODO perform initialization that depends on other federates below //
-        ///////////////////////////////////////////////////////////////////////
-
         if(!super.isLateJoiner()) {
             readyToRun();
         }
@@ -123,70 +114,6 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 
             atr.requestSyncStart();
             enteredTimeGrantedState();
-
-            ////////////////////////////////////////////////////////////////////////////////////////
-            // TODO send interactions that must be sent every logical time step below.
-            // Set the interaction's parameters.
-            //
-            //    ReadTransducerChannelIdTEDSResponse vReadTransducerChannelIdTEDSResponse = create_ReadTransducerChannelIdTEDSResponse();
-            //    vReadTransducerChannelIdTEDSResponse.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_errorCode( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.set_transducerChannelIdTEDS( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelIdTEDSResponse.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerSampleDataFromAChannelOfATIMResponse vReadTransducerSampleDataFromAChannelOfATIMResponse = create_ReadTransducerSampleDataFromAChannelOfATIMResponse();
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_errorCode( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData( < YOUR VALUE HERE > );
-            //    vReadTransducerSampleDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerChannelTEDSResponse vReadTransducerChannelTEDSResponse = create_ReadTransducerChannelTEDSResponse();
-            //    vReadTransducerChannelTEDSResponse.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_errorCode( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.set_transducerChannelTEDS( < YOUR VALUE HERE > );
-            //    vReadTransducerChannelTEDSResponse.sendInteraction(getLRC(), currentTime);
-            //
-            //    ReadTransducerBlockDataFromAChannelOfATIMResponse vReadTransducerBlockDataFromAChannelOfATIMResponse = create_ReadTransducerBlockDataFromAChannelOfATIMResponse();
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_CheckSum( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_Length( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_MessageID( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_MessageType( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_Priority( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_SequenceNo( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_SessionNo( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_Status( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_channelId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_errorCode( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_ncapId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_timId( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.set_transducerBlockData( < YOUR VALUE HERE > );
-            //    vReadTransducerBlockDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
-            //
-            ////////////////////////////////////////////////////////////////////////////////////////
 
             CheckReceivedSubscriptions("Main Loop");
 

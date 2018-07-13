@@ -67,12 +67,12 @@ public class Tester {
 	}*/
 	
 	public static void main(String[] args) {
-		ChannelIDTEDS channelIDTEDS = ChannelIDTEDS.getLM35AChannelIDTEDS();
-		channelIDTEDS.setChannelDescription(new _String("Hello"));
-		String msg = channelIDTEDS.toString();
-		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
-		msg = msg.replace(",", "\n");
-		System.out.println(msg);
+//		ChannelIDTEDS channelIDTEDS = ChannelIDTEDS.getLM35AChannelIDTEDS();
+//		channelIDTEDS.setChannelDescription(new _String("Hello"));
+//		String msg = channelIDTEDS.toString();
+//		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
+//		msg = msg.replace(",", "\n");
+		System.out.println(ChannelTEDS.getLM35AChannelTEDS());
 	}
 
 
