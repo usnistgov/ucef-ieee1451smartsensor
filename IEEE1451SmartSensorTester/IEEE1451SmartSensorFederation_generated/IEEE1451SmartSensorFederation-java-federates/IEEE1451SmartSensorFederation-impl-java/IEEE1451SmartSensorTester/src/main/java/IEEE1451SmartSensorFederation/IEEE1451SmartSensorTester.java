@@ -491,7 +491,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 //			tedsData.put(key, value);
 //		}
 		msg = msg.replace(",", "\n");
-		output.append(msg);
+		output.append(msg + "\n");
     }
 
     public static void main(String[] args) {

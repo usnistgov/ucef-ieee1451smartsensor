@@ -88,7 +88,6 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
             currentTime = super.getLBTS() - super.getLookAhead();
             super.disableTimeRegulation();
         }
-        channelIDTEDS.setChannelDescription(new _String("Hello"));
 		sensor.setInputVoltage(5);
 		sensor.setRealTemperature(70);
 		

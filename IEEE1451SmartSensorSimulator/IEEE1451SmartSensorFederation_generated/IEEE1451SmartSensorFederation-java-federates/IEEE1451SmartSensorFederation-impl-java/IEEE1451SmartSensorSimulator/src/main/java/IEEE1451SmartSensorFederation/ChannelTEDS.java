@@ -1,24 +1,15 @@
 package IEEE1451SmartSensorFederation;
 
+import java.util.Properties;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class ChannelTEDS {
 
-	private UInt8 TEDSID;
+	private UInt8[] TEDSID;
 	private UInt8 CalKey;
 	private UInt8 ChanType;
 	private UNITS PhyUnits;
-	private UInt8 UnitType;
-	private UInt8 Radians;
-	private UInt8 SterRad;
-	private UInt8 Meters;
-	private UInt8 Kilogram;
-	private UInt8 Seconds;
-	private UInt8 Amperes;
-	private UInt8 Kelvins;
-	private UInt8 Moles;
-	private UInt8 Candelas;
-	private UInt8 UnitsExt;
 	private Float32 LowLimit;
 	private Float32 HiLimit;
 	private Float32 OError;
@@ -44,22 +35,39 @@ public class ChannelTEDS {
 	private Float32 OutPropD;
 	private Float32 TSError;
 	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+
+	public static ChannelTEDS getLM35AChannelTEDS() {
+		ChannelTEDS teds = new ChannelTEDS();
+		UInt8[] id = {new UInt8(0), new UInt8(3), new UInt8(1), new UInt8(1)};
+		teds.setTEDSID(id);
+		teds.setCalKey(new UInt8(1));
+		teds.ChanType = new UInt8(0);
+		teds.PhyUnits = UNITS.getTemperatureUNITS();
+		teds.setLowLimit(new Float32(218));
+		teds.setHiLimit(new Float32(423));
+		teds.setOError(new Float32(1));
+		teds.setSelfTest(new UInt8(1));
+		teds.setModLength(new UInt8(2));
+		teds.setSigBits(new UInt16(12));
+		
+		teds.setUpdateT(new Float32(0.1f));
+		
+		teds.setRSetupT(new Float32(.000025f));
+		teds.setWarmUpT(new Float32(180));
+		teds.setRSetupT(new Float32(.000025f));
+		return teds;
+		
+	}
+	
 	public ChannelTEDS() {
-		setTEDSID(new UInt8());
+		setTEDSID(new UInt8[4]);
 		setCalKey(new UInt8());
 		setChanType(new UInt8());
 		setPhyUnits(new UNITS());
-		setUnitType(new UInt8());
-		setRadians(new UInt8());
-		setSterRad(new UInt8());
-		setMeters(new UInt8());
-		setKilogram(new UInt8());
-		setSeconds(new UInt8());
-		setAmperes(new UInt8());
-		setKelvins(new UInt8());
-		setMoles(new UInt8());
-		setCandelas(new UInt8());
-		setUnitsExt(new UInt8());
 		setLowLimit(new Float32());
 		setHiLimit(new Float32());
 		setOError(new Float32());
@@ -89,14 +97,14 @@ public class ChannelTEDS {
 	/**
 	 * @return the tEDSID
 	 */
-	public UInt8 getTEDSID() {
+	public UInt8[] getTEDSID() {
 		return TEDSID;
 	}
 
 	/**
 	 * @param tEDSID the tEDSID to set
 	 */
-	public void setTEDSID(UInt8 tEDSID) {
+	public void setTEDSID(UInt8[] tEDSID) {
 		TEDSID = tEDSID;
 	}
 
@@ -143,146 +151,6 @@ public class ChannelTEDS {
 	}
 
 	/**
-	 * @return the unitType
-	 */
-	public UInt8 getUnitType() {
-		return UnitType;
-	}
-
-	/**
-	 * @param unitType the unitType to set
-	 */
-	public void setUnitType(UInt8 unitType) {
-		UnitType = unitType;
-	}
-
-	/**
-	 * @return the radians
-	 */
-	public UInt8 getRadians() {
-		return Radians;
-	}
-
-	/**
-	 * @param radians the radians to set
-	 */
-	public void setRadians(UInt8 radians) {
-		Radians = radians;
-	}
-
-	/**
-	 * @return the sterRad
-	 */
-	public UInt8 getSterRad() {
-		return SterRad;
-	}
-
-	/**
-	 * @param sterRad the sterRad to set
-	 */
-	public void setSterRad(UInt8 sterRad) {
-		SterRad = sterRad;
-	}
-
-	/**
-	 * @return the meters
-	 */
-	public UInt8 getMeters() {
-		return Meters;
-	}
-
-	/**
-	 * @param meters the meters to set
-	 */
-	public void setMeters(UInt8 meters) {
-		Meters = meters;
-	}
-
-	/**
-	 * @return the kilogram
-	 */
-	public UInt8 getKilogram() {
-		return Kilogram;
-	}
-
-	/**
-	 * @param kilogram the kilogram to set
-	 */
-	public void setKilogram(UInt8 kilogram) {
-		Kilogram = kilogram;
-	}
-
-	/**
-	 * @return the seconds
-	 */
-	public UInt8 getSeconds() {
-		return Seconds;
-	}
-
-	/**
-	 * @param seconds the seconds to set
-	 */
-	public void setSeconds(UInt8 seconds) {
-		Seconds = seconds;
-	}
-
-	/**
-	 * @return the kelvins
-	 */
-	public UInt8 getKelvins() {
-		return Kelvins;
-	}
-
-	/**
-	 * @param kelvins the kelvins to set
-	 */
-	public void setKelvins(UInt8 kelvins) {
-		Kelvins = kelvins;
-	}
-
-	/**
-	 * @return the candelas
-	 */
-	public UInt8 getCandelas() {
-		return Candelas;
-	}
-
-	/**
-	 * @param candelas the candelas to set
-	 */
-	public void setCandelas(UInt8 candelas) {
-		Candelas = candelas;
-	}
-
-	/**
-	 * @return the moles
-	 */
-	public UInt8 getMoles() {
-		return Moles;
-	}
-
-	/**
-	 * @param moles the moles to set
-	 */
-	public void setMoles(UInt8 moles) {
-		Moles = moles;
-	}
-
-	/**
-	 * @return the amperes
-	 */
-	public UInt8 getAmperes() {
-		return Amperes;
-	}
-
-	/**
-	 * @param amperes the amperes to set
-	 */
-	public void setAmperes(UInt8 amperes) {
-		Amperes = amperes;
-	}
-
-	/**
 	 * @return the lowLimit
 	 */
 	public Float32 getLowLimit() {
@@ -310,19 +178,7 @@ public class ChannelTEDS {
 		HiLimit = hiLimit;
 	}
 
-	/**
-	 * @return the unitsExt
-	 */
-	public UInt8 getUnitsExt() {
-		return UnitsExt;
-	}
-
-	/**
-	 * @param unitsExt the unitsExt to set
-	 */
-	public void setUnitsExt(UInt8 unitsExt) {
-		UnitsExt = unitsExt;
-	}
+	
 
 	/**
 	 * @return the oError
@@ -630,15 +486,5 @@ public class ChannelTEDS {
 	 */
 	public void setTSError(Float32 tSError) {
 		TSError = tSError;
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
-
-	public static ChannelTEDS getLM35AChannelTEDS() {
-		ChannelTEDS teds = new ChannelTEDS();
-		return teds;
 	}
 }

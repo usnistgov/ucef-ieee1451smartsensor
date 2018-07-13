@@ -115,4 +115,19 @@ public class UNITS {
 	public void setUnitsExtensionTEDSAccessCode(UInt8 unitsExtensionTEDSAccessCode) {
 		UnitsExtensionTEDSAccessCode = unitsExtensionTEDSAccessCode;
 	}
+	
+	public static final UNITS getTemperatureUNITS() {
+		UNITS temp = new UNITS();
+		temp.radians = new UInt8(128);
+		temp.sterradians = new UInt8(128);
+		temp.meters = new UInt8(128);
+		temp.kilograms = new UInt8(128);
+		temp.seconds = new UInt8(128);
+		temp.amperes = new UInt8(128);
+		temp.kelvins = new UInt8(130);
+		temp.moles = new UInt8(128);
+		temp.candelas = new UInt8(128);
+		temp.interpretation = new UInt8(0);
+		return temp;
+	}
 }
