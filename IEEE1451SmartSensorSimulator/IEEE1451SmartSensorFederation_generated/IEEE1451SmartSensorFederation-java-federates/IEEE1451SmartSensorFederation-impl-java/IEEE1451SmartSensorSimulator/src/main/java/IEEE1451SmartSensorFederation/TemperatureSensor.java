@@ -116,4 +116,8 @@ public class TemperatureSensor {
 	public void disconnect() {
 		disconnected = true;
 	}
+	
+	public boolean isDisconnected() {
+		return disconnected;
+	}
 }

@@ -129,9 +129,19 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 
 		try {
 			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData("" + sensor.getMeasuredTemperature());
+			try {
+				vReadTransducerSampleDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e) {
+				log.error(FAILED_INTERACTION_MESSAGE);
+			}
 		} catch (SensorNonOperableException e1) {
 			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_errorCode(SENSOR_NON_OPERABLE);
 			vReadTransducerSampleDataFromAChannelOfATIMResponse.set_transducerSampleData(NAN);
+			try {
+				vReadTransducerSampleDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e) {
+				log.error(FAILED_INTERACTION_MESSAGE);
+			}
 		} catch (SensorDisconnectedException e) {
 			log.error(DISCONNETED_MESSAGE);
 		}
@@ -144,12 +154,6 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SequenceNo((byte) 1);
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_SessionNo((byte) 1);
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Status((byte) 1);
-
-		try {
-			vReadTransducerSampleDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
-		} catch (Exception e) {
-			log.error(FAILED_INTERACTION_MESSAGE);
-		}
 
 		log.info("Sending data");
 	}
@@ -211,37 +215,41 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
     }
 
 	private void handleInteractionClass(ReadTransducerChannelIdTEDSRequest interaction) {
-		ReadTransducerChannelIdTEDSResponse vReadTransducerChannelIdTEDSResponse = create_ReadTransducerChannelIdTEDSResponse();
-		vReadTransducerChannelIdTEDSResponse.set_errorCode(NO_ERROR);
-		vReadTransducerChannelIdTEDSResponse.set_transducerChannelIdTEDS(channelIDTEDS.toString());
-		vReadTransducerChannelIdTEDSResponse.set_CheckSum((short) 1);
-		vReadTransducerChannelIdTEDSResponse.set_Length((short) 1);
-		vReadTransducerChannelIdTEDSResponse.set_MessageID((short) 1);
-		vReadTransducerChannelIdTEDSResponse.set_SequenceNo((byte) 1);
-		vReadTransducerChannelIdTEDSResponse.set_SessionNo((byte) 1);
-		vReadTransducerChannelIdTEDSResponse.set_Status((byte) 1);
-		try {
-			vReadTransducerChannelIdTEDSResponse.sendInteraction(getLRC(), currentTime);
-		} catch (Exception e) {
-			log.error("An error occured");
+		if (!sensor.isDisconnected()) {
+			ReadTransducerChannelIdTEDSResponse vReadTransducerChannelIdTEDSResponse = create_ReadTransducerChannelIdTEDSResponse();
+			vReadTransducerChannelIdTEDSResponse.set_errorCode(NO_ERROR);
+			vReadTransducerChannelIdTEDSResponse.set_transducerChannelIdTEDS(channelIDTEDS.toString());
+			vReadTransducerChannelIdTEDSResponse.set_CheckSum((short) 1);
+			vReadTransducerChannelIdTEDSResponse.set_Length((short) 1);
+			vReadTransducerChannelIdTEDSResponse.set_MessageID((short) 1);
+			vReadTransducerChannelIdTEDSResponse.set_SequenceNo((byte) 1);
+			vReadTransducerChannelIdTEDSResponse.set_SessionNo((byte) 1);
+			vReadTransducerChannelIdTEDSResponse.set_Status((byte) 1);
+			try {
+				vReadTransducerChannelIdTEDSResponse.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e) {
+				log.error("An error occured");
+			}
 		}
 	}
 
 	private void handleInteractionClass(ReadTransducerChannelTEDSRequest interaction) {
-		ReadTransducerChannelTEDSResponse vReadTransducerChannelTEDSResponse = create_ReadTransducerChannelTEDSResponse();
-		vReadTransducerChannelTEDSResponse.set_errorCode(NO_ERROR);
-		vReadTransducerChannelTEDSResponse.set_transducerChannelTEDS(channelTEDS.toString());
-		vReadTransducerChannelTEDSResponse.set_CheckSum((short) 1);
-		vReadTransducerChannelTEDSResponse.set_Length((short) 1);
-		vReadTransducerChannelTEDSResponse.set_MessageID((short) 1);
-		vReadTransducerChannelTEDSResponse.set_MessageType((byte) 1);
-		vReadTransducerChannelTEDSResponse.set_SequenceNo((byte) 1);
-		vReadTransducerChannelTEDSResponse.set_SessionNo((byte) 1);
-		vReadTransducerChannelTEDSResponse.set_Status((byte) 1);
-		try {
-			vReadTransducerChannelTEDSResponse.sendInteraction(getLRC(), currentTime);
-		} catch (Exception e) {
-			log.error("An error occured");
+		if (!sensor.isDisconnected()) {
+			ReadTransducerChannelTEDSResponse vReadTransducerChannelTEDSResponse = create_ReadTransducerChannelTEDSResponse();
+			vReadTransducerChannelTEDSResponse.set_errorCode(NO_ERROR);
+			vReadTransducerChannelTEDSResponse.set_transducerChannelTEDS(channelTEDS.toString());
+			vReadTransducerChannelTEDSResponse.set_CheckSum((short) 1);
+			vReadTransducerChannelTEDSResponse.set_Length((short) 1);
+			vReadTransducerChannelTEDSResponse.set_MessageID((short) 1);
+			vReadTransducerChannelTEDSResponse.set_MessageType((byte) 1);
+			vReadTransducerChannelTEDSResponse.set_SequenceNo((byte) 1);
+			vReadTransducerChannelTEDSResponse.set_SessionNo((byte) 1);
+			vReadTransducerChannelTEDSResponse.set_Status((byte) 1);
+			try {
+				vReadTransducerChannelTEDSResponse.sendInteraction(getLRC(), currentTime);
+			} catch (Exception e) {
+				log.error("An error occured");
+			}
 		}
 	}
 
