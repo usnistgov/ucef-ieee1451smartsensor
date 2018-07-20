@@ -53,7 +53,6 @@ public class ChannelTEDS {
 		teds.setTestTime(new Float32(5));
 		teds.setSampMode(new UInt8(2));
 		return teds;
-		
 	}
 	
 	public ChannelTEDS() {

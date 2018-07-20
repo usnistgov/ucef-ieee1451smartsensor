@@ -58,9 +58,15 @@ public class TemperatureSensor {
 
 	/**
 	 * @return the measuredTemperature
-	 * @throws SensorNonOperableException  
+	 * @throws SensorNonOperableException 
+	 * @throws SensorDisconnectedException
 	 */
-	public double getMeasuredTemperature() throws SensorNonOperableException {
+	public double getMeasuredTemperature() throws SensorNonOperableException, SensorDisconnectedException {
+		
+		if (disconnected) {
+			throw new SensorDisconnectedException();
+		}
+		
 		if (isOperable()) {
 			if (isBetween(realTemperature, MIN_OPERATING_TEMP, -10))
 				measuredTemperature = realTemperature + plusMinus() * (.3 - (realTemperature+10)/450.0);
@@ -84,10 +90,6 @@ public class TemperatureSensor {
 		return rand;
 	}
 	
-	public void applyLinearity() {
-		
-	}
-	
 	/**
 	 * @param val the value to be tested
 	 * @param lowLimit lower limit of the range
@@ -103,9 +105,7 @@ public class TemperatureSensor {
 	 */
 	private boolean isOperable() {
 		return (!tempOutOfBounds && !voltOutOfBounds && !disconnected);
-	}
-	
-	
+	}	
 	
 	public void reset() {
 		voltOutOfBounds = false;
