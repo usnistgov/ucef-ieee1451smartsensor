@@ -175,7 +175,9 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 
 		long rate = (long)(interaction.get_sampleIntervalSecs() + interaction.get_sampleIntervalNsecs() * Math.pow(10, -9)) / interaction.get_numberOfSamples();
 		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-
+		if (rate <= 0) 
+			rate = 1;
+		
 		service.scheduleAtFixedRate(new Runnable() {
 			int count = 0;
 			@Override

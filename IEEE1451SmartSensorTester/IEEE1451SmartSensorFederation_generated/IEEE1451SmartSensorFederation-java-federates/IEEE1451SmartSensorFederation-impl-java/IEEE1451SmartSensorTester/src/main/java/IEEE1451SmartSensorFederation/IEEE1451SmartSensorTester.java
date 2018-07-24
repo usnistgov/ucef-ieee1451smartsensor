@@ -2,7 +2,6 @@ package IEEE1451SmartSensorFederation;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.util.HashMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -60,6 +59,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 	private static boolean disconnectedVal = false;
 
 	double currentTime = 0;
+	private Thread t;
 
 	public IEEE1451SmartSensorTester(FederateConfig params) throws Exception {
 		super(params);
@@ -84,13 +84,13 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			log.info("Interaction received and handled: " + s);
 		}
 	}
-	
+
 	private void execute() throws Exception {
 		if(super.isLateJoiner()) {
 			currentTime = super.getLBTS() - super.getLookAhead();
 			super.disableTimeRegulation();
 		}
-		
+
 		frame = new JFrame(TITLE);
 		readTransducerSampleDataFromAChannelOfATIMButton = new JButton("ReadTransducerSampleDataFromAChannelOfATIMRequest");
 		readTransducerSampleDataFromAChannelOfATIMButton.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -155,6 +155,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		boolean exitCondition = false;
 
 		readTransducerSampleDataFromAChannelOfATIMButton.addActionListener(e -> {
+			disconnectedVal = true;
 			ReadTransducerSampleDataFromAChannelOfATIMRequest vReadTransducerSampleDataFromAChannelOfATIMRequest = create_ReadTransducerSampleDataFromAChannelOfATIMRequest();
 			vReadTransducerSampleDataFromAChannelOfATIMRequest.set_CheckSum((short) 1);
 			vReadTransducerSampleDataFromAChannelOfATIMRequest.set_Length((short) 1);
@@ -175,18 +176,22 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			} catch (Exception e1) {
 				log.error(e1);
 			}
-			if (disconnectedVal) {
+			t = new Thread(() -> {
 				try {
 					Thread.sleep(20000);
 				} catch (InterruptedException e1) {
 				}
 				finally {
-					String outputT = getMessageSeparators()+ "Sample Data:\n" + 
-							TIMEOUT_MESSAGE + getMessageSeparators();	
-					log.info(outputT);
-					output.append(outputT);
+					if (disconnectedVal) {
+						String outputT = getMessageSeparators()+ "Sample Data:\n" + 
+								TIMEOUT_MESSAGE + getMessageSeparators();	
+						log.info(outputT);
+						output.append(outputT);
+					}
+
 				}
-			}
+			});
+			t.start();
 
 		});
 
@@ -237,7 +242,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			try {
 				request.set_numberOfSamples(Long.parseLong(numSamplesText.getText()));
 			}
-			catch (NumberFormatException e1) {
+			catch (Exception e2) {
 				request.set_numberOfSamples(2);
 			}
 
@@ -261,24 +266,30 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			catch (NumberFormatException e1) {
 				request.set_timeoutSecs(20);
 			}
-
+			
 			try {
 				request.sendInteraction(getLRC(), currentTime);
 			} catch (Exception e1) {
 				log.error(e1);
 			}
-			if (disconnectedVal) {
+			
+			t = new Thread(() -> {
 				try {
-					Thread.sleep(20000);
-				} catch (InterruptedException e1) {
+					Thread.sleep(Long.parseLong(timeoutText.getText())*1000);
+				} catch (Exception e1) {
+					log.error(e1);
 				}
 				finally {
-					String outputT = getMessageSeparators()+ "Block Data:\n" + 
-							TIMEOUT_MESSAGE + getMessageSeparators();	
-					log.info(outputT);
-					output.append(outputT);
+					if (disconnectedVal) {
+						String outputT = getMessageSeparators()+ "Block Data:\n" + 
+								TIMEOUT_MESSAGE + getMessageSeparators();	
+						log.info(outputT);
+						output.append(outputT);
+					}
+
 				}
-			}
+			});
+			t.start();
 		});
 
 		readTransducerChannelTEDSButton.addActionListener(e -> {
@@ -303,18 +314,22 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			} catch (Exception e1) {
 				log.error(e1);
 			}
-			if (disconnectedVal) {
+			t = new Thread(() -> {
 				try {
 					Thread.sleep(20000);
 				} catch (InterruptedException e1) {
 				}
 				finally {
-					String outputT = getMessageSeparators()+ "Channel TEDS:\n" + 
-							TIMEOUT_MESSAGE + getMessageSeparators();	
-					log.info(outputT);
-					output.append(outputT);
+					if (disconnectedVal) {
+						String outputT = getMessageSeparators()+ "Channel TEDS:\n" + 
+								TIMEOUT_MESSAGE + getMessageSeparators();	
+						log.info(outputT);
+						output.append(outputT);
+					}
+
 				}
-			}
+			});
+			t.start();
 		});		
 
 
@@ -340,18 +355,22 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			} catch (Exception e1) {
 				log.error(e1);
 			}
-			if (disconnectedVal) {
+			t = new Thread(() -> {
 				try {
 					Thread.sleep(20000);
 				} catch (InterruptedException e1) {
 				}
 				finally {
-					String outputT = getMessageSeparators()+ "Channel ID TEDS:\n" + 
-							TIMEOUT_MESSAGE + getMessageSeparators();	
-					log.info(outputT);
-					output.append(outputT);
+					if (disconnectedVal) {
+						String outputT = getMessageSeparators()+ "Channel ID TEDS:\n" + 
+								TIMEOUT_MESSAGE + getMessageSeparators();	
+						log.info(outputT);
+						output.append(outputT);
+					}
+
 				}
-			}
+			});
+			t.start();
 		});
 
 		initializeSensor.addActionListener(e -> {
@@ -457,38 +476,44 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		String end = "\n***********************************\n";
 		return end;
 	}
-	
+
 	private void handleInteractionClass(ReadTransducerSampleDataFromAChannelOfATIMResponse interaction) {
+		disconnectedVal = false;
+		t.interrupt();
 		String outputT = getMessageSeparators()+ "Sample Data:\n";
 		if (interaction.get_errorCode() == NO_ERROR) 
 			outputT += interaction.get_transducerSampleData() + getMessageSeparators();
-		
+
 		else if (interaction.get_errorCode() == SENSOR_NON_OPERABLE) 
 			outputT += "Sensor isn't operable" + getMessageSeparators();	
-		
+
 		else 
 			outputT += "An unknown error occured." + getMessageSeparators();
-		
+
 		log.info(outputT);
 		output.append(outputT);
 	}
 
 	private void handleInteractionClass(ReadTransducerBlockDataFromAChannelOfATIMResponse interaction) {
+		disconnectedVal = false;
+		t.interrupt();
 		String outputT = getMessageSeparators() + "Block Data:\n";
 		if (interaction.get_errorCode() == NO_ERROR) 
 			outputT += interaction.get_transducerBlockData().trim() + getMessageSeparators();
-		
+
 		else if (interaction.get_errorCode() == SENSOR_NON_OPERABLE) 
 			outputT += "Sensor isn't operable" + getMessageSeparators();
-		
+
 		else 
 			outputT += "An unknown error occured." + getMessageSeparators();
-		
+
 		log.info(outputT);
 		output.append(outputT);
 	}
 
 	private void handleInteractionClass(ReadTransducerChannelTEDSResponse interaction) {
+		disconnectedVal = false;
+		t.interrupt();
 		String msg = getMessageSeparators() + "Channel TEDS:\n" + 
 				interaction.get_transducerChannelTEDS();
 		msg = msg.replace(",", "\n") + getMessageSeparators();
@@ -496,6 +521,8 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 	}
 
 	private void handleInteractionClass(ReadTransducerChannelIdTEDSResponse interaction) {
+		disconnectedVal = false;
+		t.interrupt();
 		String msg = interaction.get_transducerChannelIdTEDS();
 		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
 		msg = getMessageSeparators() + "Channel ID TEDS:\n" + 
