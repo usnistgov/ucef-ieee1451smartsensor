@@ -71,6 +71,8 @@ public class ChannelIDTEDS {
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		String msg = ToStringBuilder.reflectionToString(this);
+		msg = msg.replace("=", ": ");
+		return msg;
 	}
 }

@@ -28,6 +28,7 @@ public class ChannelTEDS {
 		String msg = ToStringBuilder.reflectionToString(this);
 		msg = msg.substring(msg.indexOf("[")+1, msg.lastIndexOf("]"));
 		msg = msg.replace(",", "\n");
+		msg = msg.replace("=", ": ");
 		return msg;
 	}
 

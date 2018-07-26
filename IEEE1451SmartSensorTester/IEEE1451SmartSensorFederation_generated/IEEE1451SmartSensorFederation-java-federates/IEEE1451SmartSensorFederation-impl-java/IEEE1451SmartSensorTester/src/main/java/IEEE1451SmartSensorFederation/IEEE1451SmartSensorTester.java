@@ -489,7 +489,6 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		else 
 			outputT += "An unknown error occured." + getMessageSeparators();
 
-		log.info(outputT);
 		output.append(outputT);
 	}
 
@@ -507,7 +506,6 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			else 
 				outputT += "An unknown error occured." + getMessageSeparators();
 
-			log.info(outputT);
 			output.append(outputT);
 		}
 	}
