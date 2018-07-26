@@ -38,7 +38,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 	private final static int TEMPERATURE_OUT_OF_BOUNDS = 2;
 	private static final int DISCONNECT_FROM_NETWORK = 3;
 
-	public static final String TITLE = "Smart_Sensor_Tester";
+	public static final String TITLE = "IEEE1451SmartSensorTester";
 	private static final String TIMEOUT_MESSAGE = "Request Timed Out!";
 	public static final int WIDTH = 540;
 	public static final int HEIGHT = 800;
@@ -60,6 +60,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 
 	double currentTime = 0;
 	private Thread t;
+	private boolean timedOut = false;
 
 	public IEEE1451SmartSensorTester(FederateConfig params) throws Exception {
 		super(params);
@@ -184,8 +185,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 				finally {
 					if (disconnectedVal) {
 						String outputT = getMessageSeparators()+ "Sample Data:\n" + 
-								TIMEOUT_MESSAGE + getMessageSeparators();	
-						log.info(outputT);
+								TIMEOUT_MESSAGE + getMessageSeparators();
 						output.append(outputT);
 					}
 
@@ -196,6 +196,8 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 		});
 
 		readTransducerBlockDataFromAChannelOfATIMButton.addActionListener(e -> {
+			disconnectedVal = true;
+			timedOut = false;
 			ReadTransducerBlockDataFromAChannelOfATIMRequest request = create_ReadTransducerBlockDataFromAChannelOfATIMRequest();
 			JPanel jp = new JPanel();
 
@@ -266,27 +268,26 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 			catch (NumberFormatException e1) {
 				request.set_timeoutSecs(20);
 			}
-			
+
 			try {
 				request.sendInteraction(getLRC(), currentTime);
 			} catch (Exception e1) {
 				log.error(e1);
 			}
-			
+
 			t = new Thread(() -> {
 				try {
 					Thread.sleep(Long.parseLong(timeoutText.getText())*1000);
 				} catch (Exception e1) {
-					log.error(e1);
+					log.error("ERROR!!!" + e1);
 				}
 				finally {
+					timedOut = true;
 					if (disconnectedVal) {
 						String outputT = getMessageSeparators()+ "Block Data:\n" + 
-								TIMEOUT_MESSAGE + getMessageSeparators();	
-						log.info(outputT);
+								TIMEOUT_MESSAGE + getMessageSeparators();
 						output.append(outputT);
 					}
-
 				}
 			});
 			t.start();
@@ -322,8 +323,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 				finally {
 					if (disconnectedVal) {
 						String outputT = getMessageSeparators()+ "Channel TEDS:\n" + 
-								TIMEOUT_MESSAGE + getMessageSeparators();	
-						log.info(outputT);
+								TIMEOUT_MESSAGE + getMessageSeparators();
 						output.append(outputT);
 					}
 
@@ -363,8 +363,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 				finally {
 					if (disconnectedVal) {
 						String outputT = getMessageSeparators()+ "Channel ID TEDS:\n" + 
-								TIMEOUT_MESSAGE + getMessageSeparators();	
-						log.info(outputT);
+								TIMEOUT_MESSAGE + getMessageSeparators();
 						output.append(outputT);
 					}
 
@@ -473,7 +472,7 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 	}
 
 	private String getMessageSeparators() {
-		String end = "\n***********************************\n";
+		String end = "\n*********************************************************************\n";
 		return end;
 	}
 
@@ -496,19 +495,21 @@ public class IEEE1451SmartSensorTester extends IEEE1451SmartSensorTesterBase {
 
 	private void handleInteractionClass(ReadTransducerBlockDataFromAChannelOfATIMResponse interaction) {
 		disconnectedVal = false;
-		t.interrupt();
-		String outputT = getMessageSeparators() + "Block Data:\n";
-		if (interaction.get_errorCode() == NO_ERROR) 
-			outputT += interaction.get_transducerBlockData().trim() + getMessageSeparators();
+		t.stop();
+		if (!timedOut) {
+			String outputT = getMessageSeparators() + "Block Data:\n";
+			if (interaction.get_errorCode() == NO_ERROR) 
+				outputT += interaction.get_transducerBlockData().trim() + getMessageSeparators();
 
-		else if (interaction.get_errorCode() == SENSOR_NON_OPERABLE) 
-			outputT += "Sensor isn't operable" + getMessageSeparators();
+			else if (interaction.get_errorCode() == SENSOR_NON_OPERABLE) 
+				outputT += "Sensor isn't operable" + getMessageSeparators();
 
-		else 
-			outputT += "An unknown error occured." + getMessageSeparators();
+			else 
+				outputT += "An unknown error occured." + getMessageSeparators();
 
-		log.info(outputT);
-		output.append(outputT);
+			log.info(outputT);
+			output.append(outputT);
+		}
 	}
 
 	private void handleInteractionClass(ReadTransducerChannelTEDSResponse interaction) {

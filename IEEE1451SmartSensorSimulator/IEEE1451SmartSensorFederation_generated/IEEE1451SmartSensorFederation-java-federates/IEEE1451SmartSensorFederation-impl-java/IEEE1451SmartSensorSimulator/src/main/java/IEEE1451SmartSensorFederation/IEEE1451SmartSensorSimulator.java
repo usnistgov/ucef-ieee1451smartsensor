@@ -120,6 +120,9 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 	}
 
 	private void handleInteractionClass(ReadTransducerSampleDataFromAChannelOfATIMRequest interaction) {
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Sample Data interaction");
+		
 		ReadTransducerSampleDataFromAChannelOfATIMResponse vReadTransducerSampleDataFromAChannelOfATIMResponse = create_ReadTransducerSampleDataFromAChannelOfATIMResponse();
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_channelId(interaction.get_channelId());
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_errorCode(NO_ERROR);
@@ -156,9 +159,14 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 		vReadTransducerSampleDataFromAChannelOfATIMResponse.set_Status((byte) 1);
 
 		log.info("Sending data");
+		log.info(sep);
 	}
 
 	private void handleInteractionClass(ReadTransducerBlockDataFromAChannelOfATIMRequest interaction) {
+		
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Block Data interaction");
+		
 		ReadTransducerBlockDataFromAChannelOfATIMResponse vReadTransducerBlockDataFromAChannelOfATIMResponse = create_ReadTransducerBlockDataFromAChannelOfATIMResponse();
 		vReadTransducerBlockDataFromAChannelOfATIMResponse.set_channelId(interaction.get_channelId());
 		vReadTransducerBlockDataFromAChannelOfATIMResponse.set_errorCode(NO_ERROR);
@@ -186,7 +194,6 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 				try {
 					if (count >= interaction.get_numberOfSamples()) {
 						data += sensor.getMeasuredTemperature() + "\n";
-						log.info("Temperature: " + data);
 						vReadTransducerBlockDataFromAChannelOfATIMResponse.set_transducerBlockData(data);
 						vReadTransducerBlockDataFromAChannelOfATIMResponse.sendInteraction(getLRC(), currentTime);
 						data = "";
@@ -214,9 +221,14 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 			}
 		}, 0, rate, TimeUnit.SECONDS);
 		log.info("Sending data");
+		log.info(sep);
     }
 
 	private void handleInteractionClass(ReadTransducerChannelIdTEDSRequest interaction) {
+		
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Channel ID TEDS interaction");
+		
 		if (!sensor.isDisconnected()) {
 			ReadTransducerChannelIdTEDSResponse vReadTransducerChannelIdTEDSResponse = create_ReadTransducerChannelIdTEDSResponse();
 			vReadTransducerChannelIdTEDSResponse.set_errorCode(NO_ERROR);
@@ -233,9 +245,14 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 				log.error("An error occured");
 			}
 		}
+		log.info(sep);
 	}
 
 	private void handleInteractionClass(ReadTransducerChannelTEDSRequest interaction) {
+		
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Channel TEDS interaction");
+		
 		if (!sensor.isDisconnected()) {
 			ReadTransducerChannelTEDSResponse vReadTransducerChannelTEDSResponse = create_ReadTransducerChannelTEDSResponse();
 			vReadTransducerChannelTEDSResponse.set_errorCode(NO_ERROR);
@@ -253,14 +270,20 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 				log.error("An error occured");
 			}
 		}
+		log.info(sep);
 	}
 
 	private void handleInteractionClass(InitializeSensor interaction) {
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Initialize Sensor interaction");
 		sensor.setInputVoltage(interaction.get_inputVoltage());
 		sensor.setRealTemperature(interaction.get_realTemperature());
+		log.info(sep);
 	}
 
 	private void handleInteractionClass(FaultInjection interaction) {
+		String sep = "\n***********************************************\n";
+		log.info(sep + "Received Sample Data interaction");
 		switch(interaction.get_FaultCode()) {
 
 		case RESET_SENSOR: 
@@ -275,6 +298,7 @@ public class IEEE1451SmartSensorSimulator extends IEEE1451SmartSensorSimulatorBa
 		case DISCONNECT_FROM_NETWORK:
 			sensor.disconnect();
 		}
+		log.info(sep);
 	}
 
 	public static void main(String[] args) {
