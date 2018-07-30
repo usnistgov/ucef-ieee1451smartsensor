@@ -1,20 +1,45 @@
 #!/bin/bash
 
-cd IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_generated/
-mvn clean install
+function compileSimulator() {
+	echo "Compiling Simulator..."
 
-cd IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_deployment/
-mvn clean install
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_generated/
+	mvn clean install
 
-cd IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_generated/
-mvn clean install
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment/
+	mvn clean install
 
-cd IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment/
-mvn clean install
+	echo "Done!"
+}
 
-cd IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_generated/
-mvn clean install
+function compileTester() {
+	echo "Compiling Tester..."
 
-cd IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_deployment
-mvn clean install
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_generated/
+	mvn clean install
+
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_deployment
+	mvn clean install
+
+	echo "Done!"
+}
+
+PS3="Please choose an option "
+select option in "Compile only Simulator" "Compile only Tester" "Compile both"
+do
+    case $option in
+	"Compile only Simulator") 
+	    compileSimulator
+	    break;;
+	"Compile only Tester") 
+	    compileTester
+	    break;;
+	"Compile both")
+	    compileSimulator
+	    compileTester
+	    break;;
+    esac
+done
+
+
 
