@@ -24,6 +24,18 @@ function compileTester() {
 	echo "Done!"
 }
 
+function compileFederation() {
+	echo "Compiling Tester..."
+
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_generated/
+	mvn clean install
+
+	cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorFederation/IEEE1451SmartSensorFederation_deployment
+	mvn clean install
+
+	echo "Done!"
+}
+
 PS3="Please choose an option "
 select option in "Compile only Simulator" "Compile only Tester" "Compile both"
 do
@@ -37,6 +49,7 @@ do
 	"Compile both")
 	    compileSimulator
 	    compileTester
+	    compileFederation
 	    break;;
     esac
 done

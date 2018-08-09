@@ -75,20 +75,17 @@ printf "\n"
 curl -o /dev/null -s -X POST http://$fedmgr_host:$fedmgr_port/fedmgr --data '{"action": "START"}' -H "Content-Type: application/json"
 
 # run the other federates
+cd /home/vagrant/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_generated/IEEE1451SmartSensorFederation-java-federates/IEEE1451SmartSensorFederation-impl-java/IEEE1451SmartSensorSimulator
+xterm -fg green -bg black -l -lf $logs_directory/tester-${timestamp}.log -T "IEEE1451SmartSensor" -geometry 100x30+650+0 -e "java -Dlog4j.configurationFile=conf/log4j2.xml -jar target/IEEE1451SmartSensorSimulator-0.1.0-SNAPSHOT.jar  -federationId=IEEE1451SmartSensorFederation -configFile=conf/IEEE1451SmartSensorSimulatorConfig.json -name=sensor1" &
+sleep 2s
 
-java  -Dlog4j.configurationFile=conf/log4j2.xml -jar SmartSensor-0.1.0-SNAPSHOT.jar  -federationId=SmartSensorFederation -configFile=conf/PingConfig.json
+cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment
+xterm -fg yellow -bg black -l -lf $logs_directory/smart-sensor-${timestamp}.log -T "IEEE1451SmartSensorSimulator" -geometry 100x30+0+325 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorSimulator -Dexecargs='name=sensor2'" &
+sleep 10s
 
 cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorTester/IEEE1451SmartSensorFederation_deployment
 xterm -fg green -bg black -l -lf $logs_directory/tester-${timestamp}.log -T "IEEE1451SmartSensorTester" -geometry 100x30+650+0 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorTester" &
-sleep 1s
-
-cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment
-xterm -fg yellow -bg black -l -lf $logs_directory/smart-sensor-${timestamp}.log -T "IEEE1451SmartSensorSimulator" -geometry 100x30+0+325 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorSimulator" &
-sleep 1s
-
-cd ~/Downloads/ucef-ieee1451smartsensor/IEEE1451SmartSensorSimulator/IEEE1451SmartSensorFederation_deployment
-xterm -fg yellow -bg black -l -lf $logs_directory/smart-sensor2-${timestamp}.log -T "IEEE1451SmartSensorSimulator" -geometry 100x30+0+325 -e "mvn exec:java -P ExecJava,IEEE1451SmartSensorSimulator" &
-sleep 1s
+sleep 10s
 
 # terminate the simulation
 read -n 1 -r -s -p "Press any key to terminate the federation execution..."

@@ -168,7 +168,7 @@
 #
 #        DEFAULT: SITE_LOCAL
 #
-portico.jgroups.udp.bindAddress = LOOPBACK
+portico.jgroups.udp.bindAddress = SITE_LOCAL
 
 
 # (4.3) JGroups UDP Sent/Receive Buffer Size
